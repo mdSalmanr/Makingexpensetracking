@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <form onsubmit="saveTolocalStorage(event)">
+            <label >expenseAmount</label>
+            <input type="number" name="number" >
+            
+            <label >chose discription</label>
+            <input type="text" name="text">
+            <label >chose a category:</label>
+            <select id="choose a category": name="category">
+                <option value="fuel">fuel</option>
+                <option value="food">food</option>
+                <option value="electricity">electricity</option>
+                <option value="movie">movie</option>
+            </select>
+
+            <button>add expense</button>
+                       
+
+
+
+        </form>
+        <ul id='listofitems'></ul>
+
+        <script>
+            function saveTolocalStorage(event){
+                event.preventDefault();
+                const number =event.target.number.value;
+                const text =event.target.text.value;
+                const category =event.target.category.value;
+                localStorage.setItem('number',number);
+                localStorage.setItem('text',text)
+                localStorage.setItem('category',category);
+
+                const obj={
+                    number,
+                    text,
+                    category
+                }
+                localStorage.setItem(obj.text,JSON.stringify(obj));
+                showUserOnScreen(obj);
+
+                
+                
+                
+            }
+            function showUserOnScreen(obj){
+                const parentElem=document.getElementById('listofitems');
+
+                const childElem=document.createElement('li');
+                childElem.textContent = obj.number+'-'+obj.text +' -'+obj.category;
+
+                const deleteButton=document.createElement('input');
+                deleteButton.type="button";
+                deleteButton.value='Deleteexpense';
+
+            deleteButton.onClick=() =>{
+                localStorage.removeItem=(obj.text);
+                parentElem.removeChild(childElem);
+
+            }
+            childElem.appendChild(deleteButton);
+            parentElem.appendChild(childElem);
+
+            const editButton =document.createElement('input');
+            editButton.type ='button';
+            editButton.value ='Edit expense';
+            
+
+            editButton.onclick=()=>{
+                localStorage.removeItem=(obj.text);
+                parentElem.removeChild(childElem);
+                document.getElementById('numberInputTag').value=obj.number;
+                document.getElementById('textInputTag').value =obj.text;
+
+                document.getElementById('categoryInputTag').value=obj.category;
+            }
+            childElem.appendChild(deleteButton)
+            childElem.appendChild(editButton)
+            parentElem.appendChild(childElem)
+
+
+            }
+        </script>
+
+        
+    </div>
+    
+</body>
+</html>
